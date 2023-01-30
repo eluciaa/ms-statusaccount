@@ -1,22 +1,46 @@
 package com.nttdata.bootcamp.ms.statusaccount.infrastructure.clients;
 
-import com.nttdata.bootcamp.ms.statusaccount.application.config.RestConfig;
-import com.nttdata.bootcamp.ms.statusaccount.domain.dto.Credit;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.nttdata.bootcamp.ms.statusaccount.domain.dto.Credit;
+
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
-@Slf4j
 public class CreditRestClient {
+   
+    public Flux<Credit> getFindIdCustomer(Integer idCustomer){
+        WebClient webClient = WebClient.create("http://localhost:8086");
 
-    RestConfig restConfig = new RestConfig();
-    public Flux<Credit> getCreditByCustomer(Integer customerId){
-        return restConfig.getWebClient("http://localhost:8092")
-                .build()
-                .get()
-                .uri("/credits/customer/" + customerId)
+        return  webClient.get()
+                .uri("/credits/customer/"+idCustomer)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToFlux(Credit.class);
+    }
+    
+    public Mono<Credit> getFindId(Integer idCustomer){
+        WebClient webClient = WebClient.create("http://localhost:8086");
+
+        return  webClient.get()
+                .uri("/credits/customer/"+idCustomer)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .bodyToMono(Credit.class);
+    }
+    
+    public Mono<Credit> updateCredit(Credit credit){
+    	WebClient webClient = WebClient.create("http://localhost:8083");
+
+        return  webClient.put()
+                .uri("/credits")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(credit), Credit.class)
+                .retrieve()
+                .bodyToMono(Credit.class);
     }
 }

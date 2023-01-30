@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatusAccountDto {
+public class CreditMovementDto {
 
     private Customer consumer;
-    private List<BankAccount> accounts;
-    private List<Credit> credits;
+    private List<Credit> credit;
+    private List<Movement> movement;
 
 }
