@@ -10,12 +10,18 @@
 	</parent>
 	<groupId>com.nttdata.bootcamp</groupId>
 	<artifactId>ms-statusaccount</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
 	<name>ms-statusaccount</name>
 	<description>ms-statusaccount for bootcamp MS</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.0</spring-cloud.version>
+		<checkstyle.version>9.3</checkstyle.version>
+		<checkstyle-maven-plugin.version>3.2.1</checkstyle-maven-plugin.version>
+		<maven-project-info-reports-plugin.version>3.4.2</maven-project-info-reports-plugin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<jacoco.plugin.version>0.8.8</jacoco.plugin.version>
 	</properties>
 	<dependencies>
@@ -35,11 +41,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-aop</artifactId>-->
-<!--			<version>3.0.1</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -60,10 +61,6 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
@@ -91,6 +88,27 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle-maven-plugin.version}</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+				</configuration>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -103,31 +121,69 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.plugin.version}</version>
-                <configuration>
-                    <destFile>${project.basedir}/target/jacoco.exec</destFile>
-                    <append>true</append>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>jacoco-initialize</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.plugin.version}</version>
+				<configuration>
+					<destFile>${project.basedir}/target/jacoco.exec</destFile>
+					<append>true</append>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
+	<repositories>
+		<repository>
+			<id>netflix-candidates</id>
+			<name>Netflix Candidates</name>
+			<url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

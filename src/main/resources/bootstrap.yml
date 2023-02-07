@@ -1,8 +1,11 @@
+
 spring:
   application:
     name: statusaccount
+  config:
+    import: "optional:configserver:https://ms-configserver-team.azurewebsites.net"
   cloud:
     config:
       enabled: true
       uri: http://localhost:8091
-      profile: dev
+      profile: prod

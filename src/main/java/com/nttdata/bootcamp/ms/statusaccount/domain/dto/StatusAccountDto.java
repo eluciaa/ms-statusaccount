@@ -14,5 +14,6 @@ public class StatusAccountDto {
     private Customer consumer;
     private List<BankAccount> accounts;
     private List<Credit> credits;
+    private Debit debit;
 
 }

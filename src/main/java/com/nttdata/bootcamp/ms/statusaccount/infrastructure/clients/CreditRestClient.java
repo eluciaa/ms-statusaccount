@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class CreditRestClient {
    
-    public Flux<Credit> getFindIdCustomer(Integer idCustomer){
+    public Flux<Credit> getFindIdCustomer(String idCustomer){
         WebClient webClient = WebClient.create("http://localhost:8086");
 
         return  webClient.get()
@@ -27,14 +27,14 @@ public class CreditRestClient {
         WebClient webClient = WebClient.create("http://localhost:8086");
 
         return  webClient.get()
-                .uri("/credits/customer/"+idCustomer)
+                .uri("/credits/"+idCustomer)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(Credit.class);
     }
     
     public Mono<Credit> updateCredit(Credit credit){
-    	WebClient webClient = WebClient.create("http://localhost:8083");
+    	WebClient webClient = WebClient.create("http://localhost:8086");
 
         return  webClient.put()
                 .uri("/credits")

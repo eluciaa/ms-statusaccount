@@ -1,5 +1,7 @@
 package com.nttdata.bootcamp.ms.statusaccount.domain.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccount {
-    private Integer accountId;
-    private String accountNumber;
-    private Float accountBalance;
+public class DateConsultDto {
 
-    private String customerId;
-    private String accountType;
+    private Date dateStart;
+    private Date dateEnd;
+
 }

@@ -15,4 +15,6 @@ public class Credit {
     private String expiryDate;
 
     private Float availableBalance;
+    private String customerId;
+    private String creditType;
 }

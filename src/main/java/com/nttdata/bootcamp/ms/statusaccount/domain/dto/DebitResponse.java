@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccount {
-    private Integer accountId;
-    private String accountNumber;
-    private Float accountBalance;
+public class DebitResponse {
 
-    private String customerId;
-    private String accountType;
+	private Debit debit;
+    private String message;
+
 }

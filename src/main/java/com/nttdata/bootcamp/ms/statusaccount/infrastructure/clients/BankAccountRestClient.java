@@ -16,7 +16,7 @@ public class BankAccountRestClient {
     RestConfig restConfig = new RestConfig();
     
     public Flux<BankAccount> getAccountByCustomer(Integer customerId){
-        return restConfig.getWebClient("http://bankaccount:8093")
+        return restConfig.getWebClient("http://bankaccount:8700")
                 .build()
                 .get()
                 .uri("/bankaccount/customer/" + customerId)
@@ -26,7 +26,7 @@ public class BankAccountRestClient {
     
     // METODO UTILIZADO PARA REGISTRAR LA TRANSACCION EN EL MICROSERVICIO DE TRANSACCIONES
     public Mono<BankAccount> getBankAccount(BankAccount transactionCreateRequest){
-        WebClient webClient = WebClient.create("http://localhost:8083");
+        WebClient webClient = WebClient.create("http://localhost:8700");
 
         return  webClient.post()
                 .uri("/accounts/account/"+transactionCreateRequest.getCustomerId())
@@ -36,8 +36,8 @@ public class BankAccountRestClient {
 
     }
     
-    public Flux<BankAccount> getFindIdCustomer(Integer idCustomer){
-        WebClient webClient = WebClient.create("http://localhost:8083");
+    public Flux<BankAccount> getFindIdCustomer(String idCustomer){
+        WebClient webClient = WebClient.create("http://localhost:8700");
 
         return  webClient.get()
                 .uri("/accounts/customer/"+idCustomer)
@@ -48,7 +48,7 @@ public class BankAccountRestClient {
     }
     
     public Mono<BankAccount> getFindId(Integer id){
-        WebClient webClient = WebClient.create("http://localhost:8083");
+        WebClient webClient = WebClient.create("http://localhost:8700");
 
         return  webClient.get()
                 .uri("/accounts/account/"+id)
@@ -59,7 +59,7 @@ public class BankAccountRestClient {
     }
 
     public Mono<BankAccount> updateAccount(BankAccount bankAccount){
-    	WebClient webClient = WebClient.create("http://localhost:8083");
+    	WebClient webClient = WebClient.create("http://localhost:8700");
 
         return  webClient.put()
                 .uri("/accounts")
